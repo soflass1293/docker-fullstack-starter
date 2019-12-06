@@ -14,3 +14,10 @@ services:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin
       MONGO_INITDB_DATABASE: mydb
+  api:
+    build: ./myAPI
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./myApi:/usr/src/app
+      - ./myApi/node_modules:/usr/src/app/node_modules

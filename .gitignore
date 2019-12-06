@@ -1,2 +1,6 @@
 /.idea
+
+/myAPI/node_modules
+
 /myMongo/data
+
