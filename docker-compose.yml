@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  db:
+    build: ./myMongo
+    command: ["--bind_ip_all"]
+    ports:
+      - 27017:27017
+    restart: always
+    volumes:
+      - ./myMongo/data:/data/db
+      - ./myMongo/users.js:/docker-entrypoint-initdb.d/001_users.js:ro
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: mydb
