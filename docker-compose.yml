@@ -21,3 +21,5 @@ services:
     volumes:
       - ./myApi:/usr/src/app
       - ./myApi/node_modules:/usr/src/app/node_modules
+    depends_on:
+      - db
