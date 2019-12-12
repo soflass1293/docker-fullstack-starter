@@ -7,6 +7,6 @@ const PersonSchema = new Schema({
     age: Number
 });
 
-const Person = mongoose.model('Person', PersonSchema);
+const Person = mongoose.model('Person', PersonSchema, 'test');
 
 exports.Person = Person;

@@ -6,25 +6,60 @@ const models = require('./models');
 const app = express();
 const port = 3000;
 
-//Set up default mongoose connection
-mongoose.connect('mongodb://127.0.0.1:27017/mydb', {
-    user: "admin",
-    pass: "admin"
-});
+// TODO: externalize db connection in other file
+const {
+    MONGO_USERNAME,
+    MONGO_PASSWORD,
+    MONGO_HOSTNAME,
+    MONGO_PORT,
+    MONGO_DB
+} = process.env;
 
-//Get the default connection
+const dbURI = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`;
+// const dbURI = 'mongodb://admin:admin@127.0.0.1:27017/mydb';
+
 const db = mongoose.connection;
 
-//Bind connection to error event (to get notification of connection errors)
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.on('connecting', function () {
+    console.log('connecting to MongoDB...');
+});
 
-app.get('/persons', function (req, res){
-    models.Person.find({}, function(err, persons){
-        if (err){
+db.on('error', function (error) {
+    console.error('Error in MongoDb connection: ' + error);
+    mongoose.disconnect();
+});
+
+db.on('connected', function () {
+    console.log('MongoDB connected');
+});
+
+db.once('open', function () {
+    console.log('MongoDB connection opened');
+});
+
+db.on('reconnected', function () {
+    console.log('MongoDB reconnected');
+});
+
+db.on('disconnected', function () {
+    console.log('MongoDB disconnected');
+    setTimeout(() => {
+        mongoose.connect(dbURI, { server: { auto_reconnect: true } });
+    }, 5000);
+
+});
+mongoose.connect(dbURI, { server: { auto_reconnect: true } });
+
+//Get the default connection
+// const db = mongoose.connection;
+
+app.get('/persons', function (req, res) {
+    models.Person.find({}, function (err, persons) {
+        if (err) {
             console.log(err);
-        } else  {
-            res.render('user-list', persons);
+        } else {
             console.log('retrieved list of names', persons.length);
+            res.send(persons);
         }
     })
 });

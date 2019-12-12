@@ -1,25 +1,39 @@
-version: '3'
+version: '3.5'
 
 services:
-  db:
-    build: ./myMongo
-    command: ["--bind_ip_all"]
-    ports:
-      - 27017:27017
-    restart: always
-    volumes:
-      - ./myMongo/data:/data/db
-      - ./myMongo/users.js:/docker-entrypoint-initdb.d/001_users.js:ro
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
-      MONGO_INITDB_DATABASE: mydb
-  api:
-    build: ./myAPI
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./myApi:/usr/src/app
-      - ./myApi/node_modules:/usr/src/app/node_modules
-    depends_on:
-      - db
+    db:
+        build: ./myMongo
+        command: ["--bind_ip_all"]
+        ports:
+            - 27017:27017
+        restart: always
+        volumes:
+            - ./myMongo/data:/data/db
+            - ./myMongo/users.js:/docker-entrypoint-initdb.d/001_users.js:ro
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: admin
+            MONGO_INITDB_ROOT_PASSWORD: admin
+            MONGO_INITDB_DATABASE: mydb
+        networks:
+            - app-network
+    api:
+        build: ./myAPI
+        ports:
+            - 3000:3000
+        volumes:
+            - ./myApi:/usr/src/app
+            - ./myApi/node_modules:/usr/src/app/node_modules
+        depends_on:
+            - db
+        environment:
+            MONGO_USERNAME: admin
+            MONGO_PASSWORD: admin
+            MONGO_HOSTNAME: db
+            MONGO_PORT: 27017
+            MONGO_DB: mydb
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge

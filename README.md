@@ -19,3 +19,9 @@ enter admin password and run ``show collections`` you should see the `test` coll
 
 ``docker-compose stop && docker-compose rm -f`` and `rm -rf myMongo/data`
 
+## Get container API
+
+`docker ps`
+
+`docker inspect id-of-container`
+
