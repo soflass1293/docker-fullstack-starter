@@ -1,6 +1,15 @@
 # Run the project
+`docker system prune` -> extreme, remove everything
 
-``docker-compose up``
+`docker-compose rm -fv mongodb`
+
+`docker-compose stop && docker-compose rm -f`
+
+`docker-compose build --no-cache`
+
+`docker-compose up`
+
+SSH connection: `docker exec -it d09 bash`
 
 
 ## Test API server
