@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
 
 const PersonSchema = new Schema({
@@ -7,6 +6,15 @@ const PersonSchema = new Schema({
     age: Number
 });
 
-const Person = mongoose.model('Person', PersonSchema, 'test');
+const TodoSchema = new Schema({
+    label: String,
+    date: Date
+});
 
-exports.Person = Person;
+const Person = mongoose.model('Person', PersonSchema, 'person');
+const Todo = mongoose.model('Todo', TodoSchema, 'todo');
+
+module.exports = {
+    Person,
+    Todo
+};

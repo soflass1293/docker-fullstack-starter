@@ -8,12 +8,14 @@ services:
             - 27017:27017
         restart: always
         volumes:
+            - ./myMongo/users.js:/docker-entrypoint-initdb.d/users.js:ro
             - ./myMongo/data:/data/db
-            - ./myMongo/users.js:/docker-entrypoint-initdb.d/001_users.js:ro
         environment:
             MONGO_INITDB_ROOT_USERNAME: admin
             MONGO_INITDB_ROOT_PASSWORD: admin
             MONGO_INITDB_DATABASE: mydb
+            MONGO_NON_ROOT_USERNAME: bat
+            MONGO_NON_ROOT_PASSWORD: bat1234
         networks:
             - app-network
     api:
@@ -27,8 +29,8 @@ services:
         depends_on:
             - db
         environment:
-            MONGO_USERNAME: admin
-            MONGO_PASSWORD: admin
+            MONGO_USERNAME: bat
+            MONGO_PASSWORD: bat1234
             MONGO_HOSTNAME: db
             MONGO_PORT: 27017
             MONGO_DB: mydb

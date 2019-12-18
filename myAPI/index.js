@@ -15,8 +15,7 @@ const {
     MONGO_DB
 } = process.env;
 
-const dbURI = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`;
-// const dbURI = 'mongodb://admin:admin@127.0.0.1:27017/mydb';
+const dbURI = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}`;
 
 const db = mongoose.connection;
 
@@ -58,8 +57,19 @@ app.get('/persons', function (req, res) {
         if (err) {
             console.log(err);
         } else {
-            console.log('retrieved list of names', persons.length);
+            console.log('retrieved list of persons', persons.length);
             res.send(persons);
+        }
+    })
+});
+
+app.get('/todos', function (req, res) {
+    models.Todo.find({}, function (err, todos) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('retrieved list of todos', todos.length);
+            res.send(todos);
         }
     })
 });

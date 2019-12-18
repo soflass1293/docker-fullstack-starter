@@ -1,7 +1,8 @@
 # Run the project
+
 `docker system prune` -> extreme, remove everything
 
-`docker-compose rm -fv mongodb`
+`docker-compose rm -fv db`
 
 `docker-compose stop && docker-compose rm -f`
 
