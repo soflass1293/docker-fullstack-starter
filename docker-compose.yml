@@ -29,6 +29,7 @@ services:
         depends_on:
             - db
         environment:
+            API_PORT: 3000
             MONGO_USERNAME: bat
             MONGO_PASSWORD: bat1234
             MONGO_HOSTNAME: db
