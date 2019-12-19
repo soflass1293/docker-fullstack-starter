@@ -14,35 +14,30 @@ const initDBConnection = () => {
     const db = mongoose.connection;
 
     db.on('connecting', () => {
-        console.log('connecting to MongoDB...');
-    });
-
-    db.on('error', (error) => {
-        console.error('Error in MongoDb connection: ' + error);
-        mongoose.disconnect();
+        console.log('===> connecting to MyDB...');
     });
 
     db.on('connected', () => {
-        console.log('MongoDB connected');
-    });
-
-    db.once('open', () => {
-        console.log('MongoDB connection opened');
+        console.log('===> MyDB connected');
     });
 
     db.on('reconnected', () => {
-        console.log('MongoDB reconnected');
+        console.log('===> MyDB reconnected');
     });
 
     db.on('disconnected', () => {
-        console.log('MongoDB disconnected');
         setTimeout(() => {
-            mongoose.connect(dbURI, { server: { auto_reconnect: true } });
-        }, 5000);
+            mongoose.connect(dbURI, { server: { auto_reconnect: true } }).catch(error => handleConnectionError(error));
+        }, 4000);
 
     });
 
-    mongoose.connect(dbURI, { server: { auto_reconnect: true } });
+    mongoose.connect(dbURI, { server: { auto_reconnect: true } }).catch(error => handleConnectionError(error));
+};
+
+const handleConnectionError = (error) => {
+    console.error('===> Error in MyDB connection');
+    console.log('===> Try to reconnect to MyDB...');
 };
 
 module.exports = {

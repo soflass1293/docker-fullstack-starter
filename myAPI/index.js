@@ -46,4 +46,4 @@ app.get('/', (req, res) => res.send('Hello World'));
 //  Run app
 // ==================================
 
-app.listen(API_PORT, () => console.log(`myAPI listening on port ${API_PORT}`));
+app.listen(API_PORT, () => console.log(`===> myAPI listening on port ${API_PORT}`));
