@@ -21,6 +21,10 @@
         flex-direction: column;
         border: 1px solid #5c6069;
         padding: 20px;
+        width: 80vw;
+    }
+    .todo-item:not(:last-child) {
+        border-bottom: none;
     }
     .label {
         font-size: 18px;
