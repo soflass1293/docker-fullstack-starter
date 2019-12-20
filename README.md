@@ -27,7 +27,7 @@ enter bat password and run ``show collections`` you should see the collections f
 
 `docker ps`
 
-`docker inspect id-of-container`
+`docker inspect <ID>`
 
 
 ## Other clean

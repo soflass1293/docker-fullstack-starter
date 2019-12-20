@@ -37,6 +37,15 @@ services:
             MONGO_DB: mydb
         networks:
             - app-network
+    vue:
+        build: ./myVue
+        ports:
+            - 8080:8080
+        volumes:
+            - ./myVue:/app
+        command: npm run serve
+        networks:
+            - app-network
 
 networks:
     app-network:
