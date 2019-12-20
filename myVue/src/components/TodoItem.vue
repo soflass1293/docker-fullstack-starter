@@ -22,7 +22,7 @@
         border-top: 1px solid #5c6069;
         border-bottom: 1px solid #5c6069;
         padding: 20px 30px;
-        width: 80vw;
+        width: calc(40vw - 10px);
         position: relative;
 
         &:not(:last-child) {
@@ -54,6 +54,12 @@
         }
         .date {
             font-size: 12px;
+        }
+    }
+
+    @media only screen and (max-width: 600px) {
+        .todo-item {
+            width: calc(80vw - 10px);
         }
     }
 </style>

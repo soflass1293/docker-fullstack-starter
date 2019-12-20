@@ -81,7 +81,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #e1e1e1;
-    margin-top: 60px;
+    margin: 60px 0;
     background: #212329;
 
     .main-wrapper {
