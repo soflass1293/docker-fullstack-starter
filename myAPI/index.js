@@ -1,7 +1,8 @@
-const express = require('express');
+const express = require("express");
+const cors = require("cors");
 
-const dbConnector = require('./dbConnector');
-const models = require('./models');
+const dbConnector = require("./dbConnector");
+const models = require("./models");
 
 const app = express();
 const { API_PORT } = process.env;
@@ -12,35 +13,36 @@ const { API_PORT } = process.env;
 
 dbConnector.initDBConnection();
 
-
 // ==================================
 //  Express Routes
 // ==================================
 
-app.get('/persons', function (req, res) {
-    models.Person.find({}, function (err, persons) {
+app.use(cors());
+// app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get("/persons", function(req, res) {
+    models.Person.find({}, function(err, persons) {
         if (err) {
             console.log(err);
         } else {
             console.log(`/persons ==> ${persons.length} results`);
             res.send(persons);
         }
-    })
+    });
 });
 
-app.get('/todos', function (req, res) {
-    models.Todo.find({}, function (err, todos) {
+app.get("/todos", function(req, res) {
+    models.Todo.find({}, function(err, todos) {
         if (err) {
             console.log(err);
         } else {
             console.log(`/todos ==> ${todos.length} results`);
             res.send(todos);
         }
-    })
+    });
 });
 
-app.get('/', (req, res) => res.send('Hello World'));
-
+app.get("/", (req, res) => res.send("Hello World"));
 
 // ==================================
 //  Run app

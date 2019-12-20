@@ -2,7 +2,7 @@
     <div id="app">
         <div class="main-wrapper">
             <div v-if="loading" class="loading">
-                <div class="loader" />
+                <Loader />
             </div>
 
             <div v-if="error" class="error">
@@ -17,11 +17,16 @@
 </template>
 
 <script>
+import Loader from "./components/Loader";
 import TodoList from "./components/TodoList";
+import axios from "axios";
+
+const { VUE_APP_API_PORT, VUE_APP_API_HOST } = process.env;
 
 export default {
     name: "app",
     components: {
+        Loader,
         TodoList,
     },
     data() {
@@ -42,34 +47,22 @@ export default {
     },
     methods: {
         getTodos(callback) {
-            setTimeout(() => {
-                callback(null, [
-                    {
-                        id: 1,
-                        label: "un premier todo",
-                        date: "24/12/1988",
-                    },
-                    {
-                        id: 2,
-                        label: "un 2e todo",
-                        date: "24/12/2004",
-                    },
-                    {
-                        id: 3,
-                        label: "un 3e todo",
-                        date: "24/12/1998",
-                    },
-                ]);
-            }, 2000);
+            axios.get(`http://${VUE_APP_API_HOST}:${VUE_APP_API_PORT}/todos`)
+                .then((response) => {
+                    callback(null, response.data);
+                })
+                .catch((error) => {
+                    console.log("===> ", error);
+                });
         },
         fetchData() {
             this.error = this.todos = null;
             this.loading = true;
-            // replace `getPost` with your data fetching util / API wrapper
-            this.getTodos((err, todos) => {
+
+            this.getTodos((error, todos) => {
                 this.loading = false;
-                if (err) {
-                    this.error = err.toString();
+                if (error) {
+                    this.error = error.toString();
                 } else {
                     this.todos = todos;
                 }
@@ -79,33 +72,21 @@ export default {
 };
 </script>
 
-<style>
-    body {
-        background: #212329;
-    }
-    #app {
-        font-family: "Avenir", Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        color: #e1e1e1;
-        margin-top: 60px;
-        background: #212329;
-    }
+<style lang="scss">
+body {
+    background: #212329;
+}
+#app {
+    font-family: "Avenir", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #e1e1e1;
+    margin-top: 60px;
+    background: #212329;
+
     .main-wrapper {
         display: flex;
         justify-content: center;
     }
-    .loader {
-        border: 8px solid #1E7D7E;
-        border-top: 8px solid #3FC7C7;
-        border-radius: 50%;
-        width: 30vw;
-        height: 30vw;
-        animation: spin 2s linear infinite;
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
+}
 </style>

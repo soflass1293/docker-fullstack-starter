@@ -22,7 +22,7 @@ EXPOSE 8080
 CMD [ "npm", "run", "serve" ]
 
 
-# build (staging / UAT...)
+# staging
 
 #FROM node:lts-alpine
 #RUN npm install -g http-server
