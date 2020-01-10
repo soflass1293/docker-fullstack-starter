@@ -7,6 +7,9 @@ const PersonSchema = new Schema({
 });
 
 const TodoSchema = new Schema({
+    id: Number,
+    personId: Number,
+    position: Number,
     label: String,
     date: Date
 });

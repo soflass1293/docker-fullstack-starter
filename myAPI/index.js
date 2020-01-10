@@ -1,11 +1,16 @@
 const express = require("express");
 const cors = require("cors");
+const bodyParser = require('body-parser');
 
 const dbConnector = require("./dbConnector");
 const models = require("./models");
 
-const app = express();
 const { API_PORT } = process.env;
+const app = express();
+
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // ==================================
 //  MongoDB Connexion
@@ -17,11 +22,8 @@ dbConnector.initDBConnection();
 //  Express Routes
 // ==================================
 
-app.use(cors());
-// app.use(bodyParser.urlencoded({ extended: true }));
-
-app.get("/persons", function(req, res) {
-    models.Person.find({}, function(err, persons) {
+app.get("/persons", (req, res) => {
+    models.Person.find({}, (err, persons) => {
         if (err) {
             console.log(err);
         } else {
@@ -31,8 +33,8 @@ app.get("/persons", function(req, res) {
     });
 });
 
-app.get("/todos", function(req, res) {
-    models.Todo.find({}, function(err, todos) {
+app.get("/todos", (req, res) => {
+    models.Todo.find({}, (err, todos) => {
         if (err) {
             console.log(err);
         } else {
@@ -43,6 +45,11 @@ app.get("/todos", function(req, res) {
 });
 
 app.get("/", (req, res) => res.send("Hello World"));
+
+app.post("/todos", (req, res) => {
+    console.log("post ===> ", req.body);
+    res.sendStatus(200);
+});
 
 // ==================================
 //  Run app

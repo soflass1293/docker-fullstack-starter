@@ -20,6 +20,7 @@
 import Loader from "./components/Loader";
 import TodoList from "./components/TodoList";
 import axios from "axios";
+import * as Utils from "./utils";
 
 const { VUE_APP_API_PORT, VUE_APP_API_HOST } = process.env;
 
@@ -60,11 +61,11 @@ export default {
             this.loading = true;
 
             this.getTodos((error, todos) => {
-                this.loading = false;
                 if (error) {
                     this.error = error.toString();
                 } else {
-                    this.todos = todos;
+                    this.todos = Utils.sortTodos(todos);
+                    this.loading = false;
                 }
             });
         },

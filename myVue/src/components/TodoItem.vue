@@ -1,5 +1,9 @@
 <template>
-    <div class="todo-item">
+    <div class="todo-item" draggable="true"
+         v-on:dragstart="$emit('todo-drag-start', id)"
+         v-on:dragend="$emit('todo-drag-end', id)"
+         v-on:dragover="$emit('todo-drag-over', id)"
+    >
         <div class="label">{{ label }}</div>
         <div class="date">created on {{ date }}</div>
     </div>
@@ -8,6 +12,7 @@
 <script>
     export default {
         props: {
+            id: Number,
             label: String,
             date: String,
         },
@@ -52,6 +57,7 @@
         .label {
             font-size: 18px;
         }
+
         .date {
             font-size: 12px;
         }
