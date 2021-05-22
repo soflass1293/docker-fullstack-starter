@@ -8,9 +8,9 @@ const {
     MONGO_DB
 } = process.env;
 
-const dbURI = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}`;
+const DB_URI = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}`;
 
-const initDBConnection = () => {
+const init = () => {
     const db = mongoose.connection;
 
     db.on('connecting', () => {
@@ -27,12 +27,12 @@ const initDBConnection = () => {
 
     db.on('disconnected', () => {
         setTimeout(() => {
-            mongoose.connect(dbURI, { server: { auto_reconnect: true } }).catch(error => handleConnectionError(error));
+            mongoose.connect(DB_URI, { server: { auto_reconnect: true } }).catch(error => handleConnectionError(error));
         }, 4000);
 
     });
 
-    mongoose.connect(dbURI, { server: { auto_reconnect: true } }).catch(error => handleConnectionError(error));
+    mongoose.connect(DB_URI, { server: { auto_reconnect: true } }).catch(error => handleConnectionError(error));
 };
 
 const handleConnectionError = (error) => {
@@ -41,5 +41,5 @@ const handleConnectionError = (error) => {
 };
 
 module.exports = {
-    initDBConnection
+    init
 };

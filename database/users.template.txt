@@ -1,0 +1,10 @@
+db.createUser({
+    user: "#USER#",
+    pwd: "#PWD#",
+    roles: [
+        {
+            role: "#ROLE#",
+            db: "#DB#",
+        },
+    ],
+});
