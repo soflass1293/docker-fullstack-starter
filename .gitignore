@@ -1,6 +1,7 @@
 /.idea
 
-/myAPI/node_modules
+/api/node_modules
 
-/myMongo/data
+/database/data
 
+.env.local
